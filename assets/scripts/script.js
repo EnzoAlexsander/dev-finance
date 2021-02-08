@@ -13,25 +13,21 @@ const Modal = {
 
 const transactions = [
     {
-        id: 1,
         description: 'Luz',
         amount: -20000,
         date: '23/01/2021',
     },
     {
-        id: 2,
         description: 'Website',
         amount: 600000,
         date: '23/01/2021',
     },
     {
-        id: 3,
         description: 'Internet',
         amount: -20000,
         date: '23/01/2021',
     },
     {
-        id: 4,
         description: 'App',
         amount: 200000,
         date: '23/01/2021',
@@ -39,11 +35,24 @@ const transactions = [
 ];
 
 const Transaction = {
+    all: transactions,
+    add(transaction) {
+        Transaction.all.push(transaction);
+
+        App.reload();
+    },
+
+    remove(index) {
+        Transaction.all.splice(index, 1);
+
+        App.reload();
+    },
+
     incomes() {
         let income = 0;
         //pegar todas as transações
         //para cada transação
-        transactions.forEach((transaction) => {
+        Transaction.all.forEach((transaction) => {
             //se ela for maior que zero
             if (transaction.amount > 0) {
                 //somar a uma variável e retornar a variável
@@ -57,7 +66,7 @@ const Transaction = {
         let expense = 0;
         //pegar todas as transações
         //para cada transação
-        transactions.forEach((transaction) => {
+        Transaction.all.forEach((transaction) => {
             //se ela for menor que zero
             if (transaction.amount < 0) {
                 //somar a uma variável e retornar a variável
@@ -111,6 +120,10 @@ const DOM = {
             'totalDisplay'
         ).innerHTML = Utils.formatCurrency(Transaction.total());
     },
+
+    clearTransactions() {
+        DOM.transactionsContainer.innerHTML = '';
+    },
 };
 
 const Utils = {
@@ -130,8 +143,20 @@ const Utils = {
     },
 };
 
-transactions.forEach(function (transaction) {
-    DOM.addTransaction(transaction);
-});
+const App = {
+    init() {
+        Transaction.all.forEach((transaction) => {
+            DOM.addTransaction(transaction);
+        });
 
-DOM.updateBalance();
+        DOM.updateBalance();
+    },
+    reload() {
+        DOM.clearTransactions();
+        App.init();
+    },
+};
+
+App.init();
+
+Transaction.remove(0);
