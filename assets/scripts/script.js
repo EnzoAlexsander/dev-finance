@@ -30,7 +30,7 @@ const Transaction = {
     all: Storage.get(),
 
     add(transaction) {
-        Transaction.all.push(transaction)
+        Transaction.all.push(transaction);
 
         App.reload();
     },
@@ -45,7 +45,7 @@ const Transaction = {
         let income = 0;
         //pegar todas as transações
         //para cada transação
-        Transaction.all.forEach(transaction => {
+        Transaction.all.forEach((transaction) => {
             //se ela for maior que zero
             if (transaction.amount > 0) {
                 //somar a uma variável e retornar a variável
@@ -59,7 +59,7 @@ const Transaction = {
         let expense = 0;
         //pegar todas as transações
         //para cada transação
-        Transaction.all.forEach(transaction => {
+        Transaction.all.forEach((transaction) => {
             //se ela for menor que zero
             if (transaction.amount < 0) {
                 //somar a uma variável e retornar a variável
@@ -122,8 +122,8 @@ const DOM = {
 
 const Utils = {
     formatAmount(value) {
-        value = Number(value.replace(/\,\./g, '')) * 100;
-        return value;
+        value = value = value * 100;
+        return Math.round(value);
     },
 
     formatDate(date) {
